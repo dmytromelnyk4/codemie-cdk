@@ -27,32 +27,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  resolve:
-    name: Resolve base version
+  check-version:
+    name: Check release version
     if: >-
       github.event_name == 'workflow_dispatch'
       || startsWith(github.event.release.tag_name, 'cdk-v')
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: iac/codemie-iac-nodejs
-    outputs:
-      base-version: ${{ steps.base.outputs.base-version }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Read base version
-        id: base
-        run: |
-          BASE=$(node -p "require('./package.json').version")
-          echo "base-version=$BASE" >> "$GITHUB_OUTPUT"
-
-  check-version:
-    name: Check release version
-    needs: [resolve]
     permissions:
       contents: read
     uses: codemie-ai/ci-workflows/.github/workflows/reusable-release-version-check.yml@main
@@ -61,7 +40,7 @@ jobs:
       package-name: '@codemieai/cdk'
       tag: ${{ github.event.release.tag_name || inputs.tag }}
       tag-prefix: 'cdk-v'
-      base-version: ${{ needs.resolve.outputs.base-version }}
+      manifest-path: iac/codemie-iac-nodejs/package.json
 
   verify:
     name: Verify and pack
