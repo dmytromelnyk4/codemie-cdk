@@ -487,7 +487,7 @@ function planCompanionWrite(
   target: Record<string, unknown>,
   key: 'prompt' | 'file' | 'definition',
   configuredValue: unknown,
-  content: string | undefined,
+  content: string | null | undefined,
   defaultPath: string,
   label: string
 ): PendingCompanionWrite | undefined {
