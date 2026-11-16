@@ -95,7 +95,7 @@ export interface IaCTool extends Omit<ToolDetails, 'settings' | 'settings_config
  */
 export interface IaCToolkit extends Omit<ToolKitDetails, 'settings' | 'tools' | 'settings_config' | 'is_external'> {
   settings_config?: boolean;
-  is_external?: boolean;
+  is_external?: boolean | null;
   tools: IaCTool[];
   settings?: IntegrationReference;
 }

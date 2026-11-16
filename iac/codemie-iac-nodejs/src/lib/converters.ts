@@ -403,9 +403,9 @@ export function datasourceResourceToCreateParams(
   return params as DataSourceCreateParams;
 }
 
-type SdkToolkit = AssistantCreateParams['toolkits'][0];
+type SdkToolkit = NonNullable<AssistantCreateParams['toolkits']>[0];
 type SdkTool = SdkToolkit['tools'][0];
-type SdkMcpServer = AssistantCreateParams['mcp_servers'][0];
+type SdkMcpServer = NonNullable<AssistantCreateParams['mcp_servers']>[0];
 
 /**
  * Convert IaC tool to SDK format
